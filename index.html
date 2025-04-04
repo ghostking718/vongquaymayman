@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vòng Quay May Mắn</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .wheel-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 50px auto;
+        }
+        .wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #ff4500;
+            background: conic-gradient(
+                red 0deg 45deg,
+                yellow 45deg 90deg,
+                green 90deg 135deg,
+                blue 135deg 180deg,
+                pink 180deg 225deg,
+                orange 225deg 270deg,
+                cyan 270deg 315deg,
+                purple 315deg 360deg
+            );
+            transition: transform 4s ease-out;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .input-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vòng Quay May Mắn</h1>
+    
+    <div class="input-container">
+        <label for="prizes">Nhập danh sách quà (cách nhau bởi dấu phẩy):</label><br>
+        <input type="text" id="prizes" value="Thẻ Game 100K, Voucher Giảm Giá, Gấu Bông, Son Môi, Hộp Socola, Bó Hoa Hồng, Đồng Hồ Đôi, Chuyến Du Lịch" style="width: 80%;">
+        <button class="button" onclick="updatePrizes()">Cập nhật</button>
+    </div>
+
+    <div class="wheel-container">
+        <div class="wheel" id="wheel"></div>
+    </div>
+    <button class="button" onclick="spinWheel()">Quay Ngay</button>
+    <div class="result" id="result"></div>
+    
+    <script>
+        let prizes = [];
+        function updatePrizes() {
+            let input = document.getElementById("prizes").value;
+            prizes = input.split(",").map(item => item.trim());
+            alert("Danh sách quà đã được cập nhật!");
+        }
+        
+        function spinWheel() {
+            if (prizes.length === 0) {
+                alert("Hãy nhập danh sách quà trước khi quay!");
+                return;
+            }
+            let randomIndex = Math.floor(Math.random() * prizes.length);
+            let angle = 360 * 5 + (randomIndex * (360 / prizes.length));
+            
+            let wheel = document.getElementById("wheel");
+            let result = document.getElementById("result");
+            
+            wheel.style.transform = `rotate(${angle}deg)`;
+            setTimeout(() => {
+                result.innerHTML = `Bạn đã trúng: ${prizes[randomIndex]}`;
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
